@@ -1,0 +1,20 @@
+version: '3'
+services:
+  backend:
+    image: vijayarchinta/simple-flask-app:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: simple-flask-app1   
+    ports:
+      - "5000:5000" 
+    networks: 
+      - app-network
+    volumes:
+      - ./data:/app
+      - app-volume:/app
+      
+networks:
+  app-network:
+volumes:
+  app-volume:

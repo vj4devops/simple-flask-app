@@ -1,0 +1,2 @@
+[flaskappserver]
+45.88.223.128 ansible_ssh_user=root

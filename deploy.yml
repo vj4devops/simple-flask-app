@@ -1,0 +1,16 @@
+- name: Deploy Project  #ansible task name
+  hosts: flaskappserver
+  become: true   #to give sudo access
+  tasks:
+    - name: Stop and remove existing containers
+      command: docker compose down -v
+      args:
+        chdir: /root/simple-flask-app
+
+    - name: Remove old Docker images
+      command: docker rmi -f vijayarchinta/simple-flask-app
+
+    - name: Start new containers
+      command: docker compose up -d
+      args:
+        chdir: /root/simple-flask-app

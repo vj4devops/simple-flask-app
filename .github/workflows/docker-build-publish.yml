@@ -1,4 +1,4 @@
-name: Docker Build and Publish
+name: Docker Build, Publish and helm
 
 on:
   push:
@@ -31,21 +31,42 @@ jobs:
           push: true
           tags: vijayarchinta/simple-flask-app:latest
 
-#
-  deploy: 
-    runs-on: ubuntu-latest 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
 
-      - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@v2
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-publish 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
         with:
-          # Required, playbook filepath
-          playbook: deploy.yml
-          # Optional, SSH private key
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # Optional, literal inventory file contents
-          inventory: |
-            [flaskappserver]
-            45.88.223.128 ansible_ssh_user=root
+          version: 'v3.7.0'  
+
+      - name: Helm Deploy
+        run: |
+          helm upgrade --install my-release ./path/to/your/helm/chart
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+
+
+
+#  deploy: 
+#    runs-on: ubuntu-latest 
+    # steps:
+    #   - name: Checkout Repository
+    #     uses: actions/checkout@v4
+
+    #   - name: Run playbook
+    #     uses: dawidd6/action-ansible-playbook@v2
+    #     with:
+    #       # Required, playbook filepath
+    #       playbook: deploy.yml
+    #       # Optional, SSH private key
+    #       key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #       # Optional, literal inventory file contents
+    #       inventory: |
+    #         [flaskappserver]
+    #         45.88.223.128 ansible_ssh_user=root

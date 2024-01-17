@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: app-issuer
+spec:
+  acme:
+    email: dis4ubuntu@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: app-issuer-private-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx

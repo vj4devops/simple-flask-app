@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskapp-deployment
+  namespace: backend
+spec:
+  replicas: 3  # You can adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: flaskapp
+  template:
+    metadata:
+      labels:
+        app: flaskapp
+    spec:
+      containers:
+      - name: flaskapp-container
+        image: vijayarchinta/simple-flask-app:latest  # Replace with your actual Docker image
+        ports:
+        - containerPort: 5000

@@ -47,7 +47,7 @@ jobs:
 
       - name: Helm Deploy
         run: |
-          helm upgrade --install my-release ./path/to/your/helm/chart
+          helm upgrade --install flaskapp ./helm/flaskapp --namespace backend
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
 

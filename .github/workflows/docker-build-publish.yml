@@ -47,6 +47,7 @@ jobs:
 
       - name: Helm Deploy
         run: |
+          mkdir -p ~/.kube
           echo "$KUBECONFIG" > ~/.kube/config
           unset KUBECONFIG
           helm upgrade --install flaskapp ./helm/flaskapp --namespace backend
